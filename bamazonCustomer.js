@@ -16,7 +16,7 @@ connection.query('SELECT * FROM products', function (error, results, fields) {
   if (error) throw error;
   // console.log('The solution is: ', results);
   var table = new Table({
-    head: ['Item Id', 'Product Name', 'Price'],
+    head: ['Item Id', 'Product Name', 'Price', 'Product Sales'],
     style: {
       head: ['yellow'],
       compact: false,
@@ -25,7 +25,7 @@ connection.query('SELECT * FROM products', function (error, results, fields) {
 	});
   for (let x = 0; x < results.length; x++) {
     table.push(
-			[results[x].item_id, results[x].product_name, results[x].price]
+			[results[x].item_id, results[x].product_name, results[x].price, results[x].product_sales]
 		);
 	}
 	console.log(table.toString());
