@@ -61,7 +61,7 @@ function view() {
                 [results[i].item_id, results[i].product_name, results[i].department_name, results[i].price, results[i].stock_quantity]
             );
 		}
-
+        console.log(results);
 		//this console.logs the table and then ends the mysql query connection
 		console.log(table.toString());
         connection.end();
@@ -99,7 +99,7 @@ function addInv() {
         if (error) throw error;
         newQuant = results[itemId - 1].stock_quantity;
         prodName = results[itemId - 1].product_name;
-        console.log(results);
+        // console.log(results);
         console.log("You have successfully added more inventory. You now have " + newQuant + " units of " + prodName + ".");
     })  
         connection.end();
@@ -125,7 +125,7 @@ function newProd() {
             name: "stockQuantity"
         }
     ]).then(function(data) {
-        console.log(data);
+        // console.log(data);
         var productName = data.productName;
         var departmentName = data.departmentName;
         var price = data.price;
@@ -133,7 +133,8 @@ function newProd() {
         connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) Values (?,?,?,?)", 
         [productName, departmentName, price, stockQuantity], function(error, results) {
             if (error) throw error;
-            console.log(results);
+            // console.log(results);
+            console.log("You have successfully added a product!")
         })
         connection.end();
     })

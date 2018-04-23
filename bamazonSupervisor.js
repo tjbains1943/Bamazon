@@ -39,12 +39,21 @@ function viewSales(){
 		}
 	});
 	console.log(' ');
-	console.log('Product Sales by Department');
+connection.query("drop table if exists final;", function(err,res) {
+	// console.log(res);
+})
+connection.query("CREATE table myquery AS select products.department_name, Sum(products.product_sales) as Department_Sales FROM products group by products.department_name;", function(err,res) {
+	// console.log(res);
+})
 
-	//connects to the mysql databased and grabs the information from the alias table called totalprofits.  this table contains all information from the Department database but also has an extra column that calculates how much the total profits are based on the overhead cost and the total sales made for each department
+	// console.log('Product Sales by Department');
+	connection.query("CREATE table final as SELECT departments.department_id, departments.department_name, departments.over_head_costs, myquery.Department_Sales, (myquery.Department_Sales - departments.over_head_costs) as Profit FROM departments inner join myquery on departments.department_name = myquery.department_name", function (error, results, fields) {
+		if (error) throw error;
+		// console.log(results);
+	  });
 	connection.query('SELECT * FROM final', function(err, res){
 		if(err) console.log('Error: ' + err);
-		console.log(res);
+		// console.log(res);
 		//this loops through the data pulled from the totalprofits database and pushes it into the table above
 		for(var i = 0; i < res.length; i++){
 			table.push(
@@ -77,10 +86,10 @@ function newDepart() {
 		// 	[]
 		// )
 		})
-		      connection.query('SELECT * FROM final', function (error, results, fields) {
-  if (error) throw error;
-  console.log(results);
-});
+// 		      connection.query("CREATE table final as SELECT departments.department_id, departments.department_name, departments.over_head_costs, myquery.Department_Sales, (myquery.Department_Sales - departments.over_head_costs) as Profit FROM departments inner join myquery on departments.department_name = myquery.department_name", function (error, results, fields) {
+//   if (error) throw error;
+//   console.log(results);
+// });
         connection.end();
 	})
 }
